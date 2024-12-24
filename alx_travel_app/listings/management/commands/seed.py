@@ -10,6 +10,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         Listing.objects.all().delete()
         user = User.objects.first()
+
+        if user is None:
+            self.stdout.write(self.style.WARNING('No user found. Please create a user before seeding the database.'))
+            return
+
+
         for i in range(10):
             Listing.objects.create(
                 host_id=user,
